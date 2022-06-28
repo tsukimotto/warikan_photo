@@ -7,8 +7,13 @@ import 'package:warikan_photo/tripadd.dart';
 import 'package:warikan_photo/friends.dart';
 import 'package:warikan_photo/profile.dart';
 import 'package:warikan_photo/abouts.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async{
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
