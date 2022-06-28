@@ -10,7 +10,9 @@ import 'package:warikan_photo/abouts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-void main() async{
+
+void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -154,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TripDetail(
-                              name: nameList[index], date: dateList[index])),
+                              title: nameList[index], date: dateList[index])),
                     );
                   },
                 );
@@ -191,5 +193,4 @@ git push
 
 git checkout main
 git pull
-yarn install
 */
