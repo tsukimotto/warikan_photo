@@ -25,6 +25,7 @@ class _TripAddState extends State<TripAdd> {
         initialDateRange: initialDateRange,
         firstDate: DateTime(DateTime.now().year - 1),
         lastDate: DateTime(DateTime.now().year + 1));
+
     if (dateRangePicked != null) {
       setState(() {
         selectedDateRange = dateRangePicked;

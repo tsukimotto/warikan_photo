@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:warikan_photo/trip1.dart';
+import 'package:warikan_photo/tripdetail.dart';
 import 'package:warikan_photo/tripadd.dart';
 import 'package:warikan_photo/friends.dart';
 import 'package:warikan_photo/profile.dart';
@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Trip1(
+                          builder: (context) => TripDetail(
                               name: nameList[index], date: dateList[index])),
                     );
                   },
@@ -175,3 +175,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+/*GitHub command
+
+git checkout -b "branch-name" //ブランチを作る
+git checkout branch-name //ブランチに行く
+git branch //現在のブランチを確認
+
+
+git add .
+git commit -m "message"
+git push
+
+
+git checkout main
+git pull
+yarn install
+*/
