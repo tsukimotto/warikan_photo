@@ -1,0 +1,196 @@
+// import 'package:flutter/material.dart';
+// import 'package:intl/intl.dart';
+
+// class TripAdd extends StatefulWidget {
+//   const TripAdd({Key? key}) : super(key: key);
+//   @override
+//   State<TripAdd> createState() => _TripAddState();
+// }
+
+// class _TripAddState extends State<TripAdd> {
+//   dynamic dateTime;
+//   dynamic dateFormat;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     var dateTime2 = DateTime.now();
+//     dateTime = dateTime2;
+//     dateFormat = DateFormat("yyyy年MM月dd日").format(dateTime);
+//   }
+
+//   void _datePicker(BuildContext context) async {
+//     final DateTime? datePicked = await showDatePicker(
+//         locale: const Locale("ja"),
+//         context: context,
+//         initialDate: dateTime,
+//         firstDate: DateTime(2022),
+//         lastDate: DateTime(2030));
+//     if (datePicked != null && datePicked != dateTime) {
+//       setState(() {
+//         dateFormat = DateFormat("yyyy年MM月dd日").format(datePicked);
+//       });
+//     }
+//   }
+
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//           title: const Text("旅行を追加"),
+//         ),
+//         body: Container(
+//           padding: const EdgeInsets.all(40),
+//           child: Column(children: <Widget>[
+//             TextFormField(
+//               decoration: const InputDecoration(
+//                 labelStyle: TextStyle(
+//                   fontSize: 14,
+//                   color: Colors.lightGreen,
+//                 ),
+//                 labelText: '旅行名',
+//                 floatingLabelStyle: TextStyle(fontSize: 12),
+//               ),
+//             ),
+//             TextFormField(
+//               decoration: const InputDecoration(
+//                 labelStyle: TextStyle(
+//                   fontSize: 14,
+//                   color: Colors.lightGreen,
+//                 ),
+//                 labelText: '行き先',
+//                 floatingLabelStyle: TextStyle(fontSize: 12),
+//               ),
+//             ),
+//             Container(
+//                 margin: const EdgeInsets.only(top: 10),
+//                 child: Text("$dateFormat")),
+//             Center(
+//               child: ElevatedButton(
+//                   onPressed: () {
+//                     _datePicker(context);
+//                   },
+//                   child: const Icon(Icons.date_range)),
+//             )
+//           ]),
+//         ));
+//   }
+// }
+
+
+
+
+
+// import 'package:flutter/material.dart';
+
+// class TripAdd extends StatefulWidget {
+//   const TripAdd({Key? key}) : super(key: key);
+//   @override
+//   State<TripAdd> createState() => _TripAddState();
+// }
+
+// class _TripAddState extends State<TripAdd> {
+//   dynamic dateTime;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     dateTime = DateTime.now();
+//   }
+
+//   void _datePicker(BuildContext context) async {
+//     final DateTime? datePicked = await showDatePicker(
+//         locale: const Locale("ja"),
+//         context: context,
+//         initialDate: dateTime,
+//         firstDate: DateTime(2022),
+//         lastDate: DateTime(2030));
+//     if (datePicked != null && datePicked != dateTime) {
+//       setState(() {
+//         dateTime = datePicked;
+//       });
+//     }
+//   }
+
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//           title: const Text("旅行を追加"),
+//         ),
+//         body: Container(
+//           padding: const EdgeInsets.all(40),
+//           child: Column(children: <Widget>[
+//             TextFormField(
+//               decoration: const InputDecoration(
+//                 labelStyle: TextStyle(
+//                   fontSize: 14,
+//                   color: Colors.lightGreen,
+//                 ),
+//                 labelText: '旅行名',
+//                 floatingLabelStyle: TextStyle(fontSize: 12),
+//               ),
+//             ),
+//             TextFormField(
+//               decoration: const InputDecoration(
+//                 labelStyle: TextStyle(
+//                   fontSize: 14,
+//                   color: Colors.lightGreen,
+//                 ),
+//                 labelText: '行き先',
+//                 floatingLabelStyle: TextStyle(fontSize: 12),
+//               ),
+//             ),
+//             Container(
+//                 margin: const EdgeInsets.only(top: 10),
+//                 child: Text("$dateTime")),
+//             Center(
+//               child: ElevatedButton(
+//                   onPressed: () {
+//                     _datePicker(context);
+//                   },
+//                   child: const Icon(Icons.date_range)),
+//             )
+//           ]),
+//         ));
+//   }
+// }
+
+// //日付のみ選択
+
+
+  // dynamic dateTime;
+  // dynamic dateFormat;
+//   void initState() {
+//     super.initState();
+//     var dateTime2 = DateTime.now();
+//     dateTime = dateTime2;
+//     dateFormat = DateFormat("yyyy年MM月dd日").format(dateTime);
+//   }
+
+//   void _datePicker(BuildContext context) async {
+//     final DateTime? datePicked = await showDatePicker(
+//         locale: const Locale("ja"),
+//         context: context,
+//         initialDate: dateTime,
+//         firstDate: DateTime(2022),
+//         lastDate: DateTime(2030));
+//     if (datePicked != null && datePicked != dateTime) {
+//       setState(() {
+//         dateFormat = DateFormat("yyyy年MM月dd日").format(datePicked);
+//       });
+//     }
+//   }
+//               Container(
+//                 margin: const EdgeInsets.only(top: 10),
+//                 child: Text("$dateFormat")),
+//             Center(
+//               child: TextButton(
+//                   onPressed: () {
+//                     _datePicker(context);
+//                   },
+//                   child: const Icon(Icons.date_range)),
+//             ),
+
+// dateRangeの出力TextBox
+//             Text(selectedDateRange != null
+//                 ? "$dateStartFormat ～ $dateEndFormat"
+//                 : "選択してください"),
