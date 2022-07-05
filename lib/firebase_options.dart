@@ -28,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -55,16 +58,6 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDijrsJqRuBuDRBI10Y5hkRwMb9-Qk5Fh8',
-    appId: '1:449682153173:ios:5900c98fe97915b2368c5c',
-    messagingSenderId: '449682153173',
-    projectId: 'warikan-photo',
-    storageBucket: 'warikan-photo.appspot.com',
-    iosClientId: '449682153173-i2dh5j6m38c7e6bann5bls741nonqna4.apps.googleusercontent.com',
-    iosBundleId: 'com.example.warikanPhoto',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDijrsJqRuBuDRBI10Y5hkRwMb9-Qk5Fh8',
     appId: '1:449682153173:ios:5900c98fe97915b2368c5c',
     messagingSenderId: '449682153173',

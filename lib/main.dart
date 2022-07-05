@@ -12,7 +12,6 @@ import 'firebase_options.dart';
 
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -29,10 +28,13 @@ class MyApp extends StatelessWidget {
       title: 'Warikan Photo',
       theme: ThemeData(
           primarySwatch: Colors.lightGreen,
-          textTheme: Theme.of(context).textTheme.apply(
-                fontSizeFactor: 1.1,
-                fontSizeDelta: 2.0,
-              )),
+          textTheme: Theme
+              .of(context)
+              .textTheme
+              .apply(
+            fontSizeFactor: 1.1,
+            fontSizeDelta: 2.0,
+          )),
       home: const MyHomePage(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -124,7 +127,15 @@ class _MyHomePageState extends State<MyHomePage> {
           Divider(
             color: Colors.black,
           ),
-          ListTile(title: Text("ログアウト"), leading: Icon(Icons.logout)),
+          ListTile(
+              title: Text("ログアウト"),
+              leading: Icon(Icons.logout),
+              onTap: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),);
+              }
+
+          ),
         ]),
       ),
       //
@@ -132,37 +143,41 @@ class _MyHomePageState extends State<MyHomePage> {
       //
       body: Center(
           child: Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: SizedBox(
-          width: double.infinity,
-          child: ListView.separated(
-              itemCount: nameList.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                    color: Colors.black,
-                  ),
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("${nameList[index]}"),
-                        Text(
-                          "${dateList[index]}",
-                          style: TextStyle(color: Colors.black45, fontSize: 16),
-                        )
-                      ]),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TripDetail(
-                              title: nameList[index], date: dateList[index])),
+            padding: EdgeInsets.only(top: 20),
+            child: SizedBox(
+              width: double.infinity,
+              child: ListView.separated(
+                  itemCount: nameList.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      Divider(
+                        color: Colors.black,
+                      ),
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("${nameList[index]}"),
+                            Text(
+                              "${dateList[index]}",
+                              style: TextStyle(color: Colors.black45,
+                                  fontSize: 16),
+                            )
+                          ]),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TripDetail(
+                                      title: nameList[index],
+                                      date: dateList[index])),
+                        );
+                      },
                     );
-                  },
-                );
-              }),
-        ),
-      )),
+                  }),
+            ),
+          )),
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 50.0),
         child: FloatingActionButton.extended(
