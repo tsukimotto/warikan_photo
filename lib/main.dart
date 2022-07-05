@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:warikan_photo/tripdetail.dart';
@@ -9,6 +10,7 @@ import 'package:warikan_photo/profile.dart';
 import 'package:warikan_photo/abouts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'login.dart';
 
 
 void main() async {
@@ -85,6 +87,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           ListTile(
+            title: Text("ログイン"),
+            leading: Icon(Icons.card_travel),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            },
+          ),
+          ListTile(
             title: Text("旅行一覧"),
             leading: Icon(Icons.card_travel),
             onTap: () {
@@ -131,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text("ログアウト"),
               leading: Icon(Icons.logout),
               onTap: () {
+                FirebaseAuth.instance.signOut();
                 Navigator.push(context,
                   MaterialPageRoute(builder: (context) => MyHomePage()),);
               }
