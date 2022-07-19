@@ -11,6 +11,7 @@ class SpaceBox extends SizedBox {
   const SpaceBox.height([double value = 8]) : super(height: value);
 }
 
+
 //行程コンポーネント
 class CompActivity extends StatelessWidget {
   final String activityName;
@@ -22,6 +23,7 @@ class CompActivity extends StatelessWidget {
       required this.warikanText,
       required this.image})
       : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
