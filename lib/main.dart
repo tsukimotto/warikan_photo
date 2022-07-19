@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:warikan_photo/tripdetail.dart';
@@ -9,10 +10,9 @@ import 'package:warikan_photo/profile.dart';
 import 'package:warikan_photo/abouts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
+import 'login.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -80,6 +81,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               accountEmail: Text("wari.kanta.00h@st.kyoto-u.ac.jp"),
             ),
+          ),
+          ListTile(
+            title: Text("ログイン"),
+            leading: Icon(Icons.card_travel),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            },
           ),
           ListTile(
             title: Text("旅行一覧"),
@@ -124,7 +135,16 @@ class _MyHomePageState extends State<MyHomePage> {
           Divider(
             color: Colors.black,
           ),
-          ListTile(title: Text("ログアウト"), leading: Icon(Icons.logout)),
+          ListTile(
+              title: Text("ログアウト"),
+              leading: Icon(Icons.logout),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                );
+              }),
         ]),
       ),
       //
