@@ -13,7 +13,6 @@ class SpaceBox extends SizedBox {
 }
 
 
-
 //行程コンポーネント
 class CompActivity extends StatelessWidget {
   final String activityName;
@@ -25,6 +24,7 @@ class CompActivity extends StatelessWidget {
       required this.warikanText,
       required this.image})
       : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +113,6 @@ class CompActivity extends StatelessWidget {
         ]);
   }
 }
-
 
 
 class TripDetail extends StatelessWidget {
