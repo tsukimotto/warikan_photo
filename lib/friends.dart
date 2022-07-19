@@ -7,18 +7,49 @@ class Friends extends StatefulWidget {
 }
 
 class _FriendsState extends State<Friends> {
+  final List<String> friendList = [
+    "Aさん",
+    "Bさん",
+    "Cさん",
+    "Dさん",
+    "Eさん",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("友達一覧"),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              '友達一覧',
+            ListView.separated(
+              itemCount: friendList.length,
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(
+                color: Colors.black,
+              ),
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(friendList[index]),
+                      ]),
+                  // onTap: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => TripDetail(
+                  //             title: nameList[index], date: dateList[index])),
+                  //   );
+                  // },
+                );
+              },
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
             ),
             ElevatedButton(
                 onPressed: () {
