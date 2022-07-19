@@ -1,7 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:warikan_photo/abouts.dart';
 
 //余白を簡単に設定できる
 class SpaceBox extends SizedBox {
@@ -11,8 +10,6 @@ class SpaceBox extends SizedBox {
   const SpaceBox.width([double value = 8]) : super(width: value);
   const SpaceBox.height([double value = 8]) : super(height: value);
 }
-
-
 
 //行程コンポーネント
 class CompActivity extends StatelessWidget {
@@ -61,50 +58,47 @@ class CompActivity extends StatelessWidget {
               const SpaceBox.width(10),
               ElevatedButton.icon(
                   onPressed: () {
-                    var isChecked;
                     showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
-                         title: Text("支払い入力フォーム"),
-                         content: Column(
-                             mainAxisSize: MainAxisSize.min,
-                             children: <Widget>[
-                               TextField(
-                                 decoration: InputDecoration(
-                                   labelText: '支払った人',
-                                   hintText: '名前',
-                                 ),
-                                 autofocus: true,
-                                 // keyboardType: TextInputType.number,
-                               ),
-                               TextField(
-                                 decoration: InputDecoration(
-                                   labelText: '支払ってもらった人',
-                                   hintText: '名前',
-                                 ),
-                                 autofocus: true,
-                                 // keyboardType: TextInputType.number,
-                               ),
-                               TextField(
-                                 decoration: InputDecoration(
-                                   labelText: '用途',
-                                   hintText: '例：おみやげ代',
-                                 ),
-                                 autofocus: true,
-                                 // keyboardType: TextInputType.number,
-                               ),
-                               TextField(
-                                 decoration: InputDecoration(
-                                   labelText:'金額',
-                                   hintText: '例：7500円',
-                                 ),
-                                 autofocus: false,
-                                 // keyboardType: TextInputType.number,
-                               ),
-                             ]
-                         ),
-                        )
-                    );
+                              title: const Text("支払い入力フォーム"),
+                              content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const <Widget>[
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        labelText: '支払った人',
+                                        hintText: '名前',
+                                      ),
+                                      autofocus: true,
+                                      // keyboardType: TextInputType.number,
+                                    ),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        labelText: '支払ってもらった人',
+                                        hintText: '名前',
+                                      ),
+                                      autofocus: true,
+                                      // keyboardType: TextInputType.number,
+                                    ),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        labelText: '用途',
+                                        hintText: '例：おみやげ代',
+                                      ),
+                                      autofocus: true,
+                                      // keyboardType: TextInputType.number,
+                                    ),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        labelText: '金額',
+                                        hintText: '例：7500円',
+                                      ),
+                                      autofocus: false,
+                                      // keyboardType: TextInputType.number,
+                                    ),
+                                  ]),
+                            ));
                   },
                   icon: const Icon(Icons.add),
                   label: const Text("割り勘"))
@@ -113,8 +107,6 @@ class CompActivity extends StatelessWidget {
         ]);
   }
 }
-
-
 
 class TripDetail extends StatelessWidget {
   final String title;
@@ -164,5 +156,3 @@ class TripDetail extends StatelessWidget {
         ));
   }
 }
-
-
