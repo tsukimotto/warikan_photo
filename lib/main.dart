@@ -63,6 +63,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    String username = "";
+    String usermail = "";
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user != null) {
+        username = user.displayName.toString();
+        usermail = user.email.toString();
+      } else {
+        username = "ログイン";
+        usermail = "";
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text("旅行一覧"),
@@ -76,10 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.lightGreen,
               ),
               accountName: Text(
-                "和里 夏太",
+                username,
                 style: TextStyle(fontSize: 20),
               ),
-              accountEmail: Text("wari.kanta.00h@st.kyoto-u.ac.jp"),
+              accountEmail: Text(usermail),
             ),
           ),
           ListTile(
