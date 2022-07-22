@@ -63,19 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String username = "";
-    String usermail = "";
-    FirebaseAuth.instance
-        .authStateChanges()
-        .listen((User? user) {
-      if (user != null) {
-        username = user.displayName.toString();
-        usermail = user.email.toString();
-      } else {
-        username = "ログイン";
-        usermail = "";
-      }
-    });
+    String username = FirebaseAuth.instance.currentUser != null
+        ? FirebaseAuth.instance.currentUser!.displayName.toString()
+        : "ログイン";
+    String usermail = FirebaseAuth.instance.currentUser != null
+        ? FirebaseAuth.instance.currentUser!.email.toString()
+        : "";
     return Scaffold(
       appBar: AppBar(
         title: Text("旅行一覧"),
