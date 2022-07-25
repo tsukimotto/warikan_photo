@@ -155,9 +155,9 @@ class TripDetail extends StatelessWidget {
                 const SpaceBox.height(10),
                 ElevatedButton.icon(
                     onPressed: () {Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => Result(result_list: [
-                          []
-                    ],)));},
+                        context, MaterialPageRoute(builder: (context) => Result(result_list:
+                          [6000, 2000, 4500, 2500]
+                    ,)));},
                     icon: const Icon(Icons.start_sharp),
                     label: const Text("割り勘開始")),
               ],

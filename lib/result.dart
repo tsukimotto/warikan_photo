@@ -11,9 +11,13 @@ class SpaceBox extends SizedBox {
   const SpaceBox.height([double value = 8]) : super(height: value);
 }
 
-
+String getResult(List<int> resultList){
+  var sum = resultList.reduce((value, element) => value + element)/4;
+  var ans = [sum~/4 - resultList[1], sum~/4 - resultList[2], sum~/4 - resultList[3]];
+  return "BさんがAさんに ${ans[0]}円\nCさんがAさんに ${ans[1]}円\nDさんがAさんに ${ans[2]}円";
+}
 class Result extends StatelessWidget {
-  final List<List<int>> result_list;
+  final List<int> result_list;
 
   const Result({Key? key, required this.result_list})
       : super(key: key);
@@ -31,7 +35,8 @@ class Result extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("割り勘結果")
+                Text("割り勘結果"),
+                Text(getResult(result_list)),
               ],
             ),
           ),
