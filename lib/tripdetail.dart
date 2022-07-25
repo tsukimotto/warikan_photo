@@ -16,36 +16,21 @@ class SpaceBox extends SizedBox {
 class DatabaseAccesscontroller {
   final dbConnection = FirebaseFirestore.instance;
 
-  get feed => userConnCollection;
-  
   DatabaseAccesscontroller build(){
     
     return this;
   }
-  Future<String> GetUserNickname(userMailAddr) async {
-    var userConnCollection = dbConnection.collection("user_list");
-    final userDocumentSnapshot = await userConnCollection.where("mail_addr", isEqualTo: userMailAddr).get();
-    StreamBuilder<QuerySnapshot>(
-        stream: feed.where('uid', isEqualTo: 'aaaaaaaaaaaaa').snapshots(),
-        builder: (_, snapshot) {
-          if (snapshot.hasData) {
-            return Column(
-              children: snapshot.data.docs
-                  .map((e) => itemGrid(
-                e.data()['username'],
-                e.data()['uid'],
-                e.data()['uavatarUrl'],
-                e.data()['imageUrl'],
-                e.data()['desc'],
-              ))
-                  .toList(),
-            );
-          } else {
-            print('null');
-            return Container();
-          }
-        }));
+
+  Future<String> getNicknameByMail(String mail) async {
+    final usersRef = dbConnection.collection("user_list");
+    final query = usersRef.where("mail_addr", isEqualTo: mail).limit(1);
+    final snapshot = await query.get();
+    return snapshot.toString();
   }
+
+
+
+
 
 
 

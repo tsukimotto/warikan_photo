@@ -84,7 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
     String usermail = FirebaseAuth.instance.currentUser != null
         ? FirebaseAuth.instance.currentUser!.email.toString()
         : "";
-    Future<String> username = dbConnection.GetUserNickname(usermail);
     if(FirebaseAuth.instance.currentUser != null){
       dateList = [];
       nameList = [];
@@ -107,9 +106,23 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: Colors.lightGreen,
               ),
-              accountName: Text(
-                username.toString(),
-                style: TextStyle(fontSize: 20),
+              accountName: FutureBuilder<String>(
+                future:dbConnection.getNicknameByMail(usermail),
+                builder: (BuildContext context, AsyncSnapshot snapshot){
+                  // 请求已结束
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      // 请求失败，显示错误
+                      return Text("Error: ${snapshot.error}");
+                    } else {
+                      // 请求成功，显示数据
+                      return Text("${snapshot.data}");
+                    }
+                  } else {
+                    // 请求未结束，显示loading
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
               accountEmail: Text(usermail),
             ),
