@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:warikan_photo/result.dart';
 
 //余白を簡単に設定できる
 class SpaceBox extends SizedBox {
@@ -152,6 +153,13 @@ class TripDetail extends StatelessWidget {
                       "sakura_road.jpg",
                     ]),
                 const SpaceBox.height(10),
+                ElevatedButton.icon(
+                    onPressed: () {Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => Result(result_list: [
+                          []
+                    ],)));},
+                    icon: const Icon(Icons.start_sharp),
+                    label: const Text("割り勘開始")),
               ],
             ),
           ),
