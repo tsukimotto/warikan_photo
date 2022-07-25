@@ -1,6 +1,5 @@
 // ignore_for_file: use_key_in_widget_constructors
 
-import 'dart:js_util/js_util_wasm.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
