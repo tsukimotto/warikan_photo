@@ -176,8 +176,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TripDetail(
-                              title: nameList[index], date: dateList[index])),
-                    );
+                              //title: nameList[index], date: dateList[index])),
+                    )));
                   },
                 );
               }),

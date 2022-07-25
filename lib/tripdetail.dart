@@ -17,11 +17,19 @@ class CompActivity extends StatelessWidget {
   final String activityName;
   final String warikanText;
   final List<String> image;
+  final TextEditingController? tokyoController1;
+  final TextEditingController? tokyoController2;
+  final TextEditingController? tokyoController3;
+  final TextEditingController? tokyoController4;
   const CompActivity(
       {Key? key,
       required this.activityName,
       required this.warikanText,
-      required this.image})
+      required this.image,
+      required this.tokyoController1,
+      required this.tokyoController2,
+      required this.tokyoController3,
+      required this.tokyoController4,})
       : super(key: key);
 
 
@@ -110,18 +118,34 @@ class CompActivity extends StatelessWidget {
   }
 }
 
-class TripDetail extends StatelessWidget {
-  final String title;
-  final String date;
+class TripDetail extends StatefulWidget {
+  @override
+  _TripDetailState createState() => _TripDetailState();
 
-  const TripDetail({Key? key, required this.title, required this.date})
-      : super(key: key);
+}
+
+class _TripDetailState extends State<TripDetail> {
+  // var _warikanController = TextEditingController();
+  var _graph = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+
+  var _tokyodomeController1 = TextEditingController();
+  var _tokyodomeController2 = TextEditingController();
+  var _tokyodomeController3 = TextEditingController();
+  var _tokyodomeController4 = TextEditingController();
+  var _keyakiController1 = TextEditingController();
+  var _keyakiController2 = TextEditingController();
+  var _keyakiController3 = TextEditingController();
+  var _keyakiController4 = TextEditingController();
+  var _ohanamiController1 = TextEditingController();
+  var _ohanamiController2 = TextEditingController();
+  var _ohanamiController3 = TextEditingController();
+  var _ohanamiController4 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          title: Text("東京"),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -129,29 +153,41 @@ class TripDetail extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("旅行名 : $title \n日程　 : $date"),
-                const CompActivity(
+              children: const <Widget>[
+                Text("旅行名 : 東京 \n日程　 : 2022/03/30~2022/03/31"),
+                CompActivity(
                     activityName: "東京ドーム",
                     warikanText: "Aさん : 入場券   計6,000円 \nBさん : ビール   計2,000円",
                     image: [
                       "hinatansai.jpg",
-                    ]),
-                const CompActivity(
+                    ],
+                    tokyoController1: _tokyodomeController1,
+                    tokyoController2: _tokyodomeController2,
+                    tokyoController3: _tokyodomeController3,
+                    tokyoController4: _tokyodomeController4,),
+                CompActivity(
                     activityName: "けやき坂",
                     warikanText: "Cさん : 昼食代   計4,500円",
                     image: [
                       "keyakizaka_shibuya.jpg",
                       "keyakizaka_roppongi.jpg",
-                    ]),
-                const CompActivity(
+                    ],
+                    tokyoController1: _keyakiController1,
+                    tokyoController2: _keyakiController2,
+                    tokyoController3: _keyakiController3,
+                    tokyoController4: _keyakiController4),
+                CompActivity(
                     activityName: "お花見",
                     warikanText: "Dさん : カフェ代   計2,500円",
                     image: [
                       "sakura_shutoko.jpg",
                       "sakura_road.jpg",
-                    ]),
-                const SpaceBox.height(10),
+                    ],
+                    tokyoController1: _ohanamiController1,
+                    tokyoController2: _ohanamiController2,
+                    tokyoController3: _ohanamiController3,
+                    tokyoController4: _ohanamiController4),
+                SpaceBox.height(10),
               ],
             ),
           ),
