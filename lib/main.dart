@@ -25,20 +25,43 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Warikan Photo',
-      theme: ThemeData(
-          primarySwatch: Colors.lightGreen,
-          textTheme: Theme.of(context).textTheme.apply(
-                fontSizeFactor: 1.1,
-                fontSizeDelta: 2.0,
-              )),
-      home: const MyHomePage(),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-    );
+    if (FirebaseAuth.instance.currentUser != null) {
+      return MaterialApp(
+        title: 'Warikan Photo',
+        theme: ThemeData(
+            primarySwatch: Colors.lightGreen,
+            textTheme: Theme
+                .of(context)
+                .textTheme
+                .apply(
+              fontSizeFactor: 1.1,
+              fontSizeDelta: 2.0,
+            )),
+        home: const MyHomePage(),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+      );
+    } else {
+      return MaterialApp(
+        title: 'Warikan Photo',
+        theme: ThemeData(
+            primarySwatch: Colors.lightGreen,
+            textTheme: Theme
+                .of(context)
+                .textTheme
+                .apply(
+              fontSizeFactor: 1.1,
+              fontSizeDelta: 2.0,
+            )),
+        home: const Login(),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+      );
+    }
   }
 }
 
@@ -50,12 +73,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> nameList = [
+  List<String> nameList = [
     "東京",
     "北海道",
     "ハワイ",
   ];
-  final List<String> dateList = [
+  List<String> dateList = [
     "2022/03/30～2022/03/31",
     "2022/09/15～2022/09/20",
     "2023/02/03～2022/02/07",
@@ -63,6 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final dbConnector = DatabaseAccesscontroller();
+    String usermail = FirebaseAuth.instance.currentUser != null
+        ? FirebaseAuth.instance.currentUser!.email.toString()
+        : "";
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("旅行一覧"),
@@ -75,11 +104,25 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: Colors.lightGreen,
               ),
-              accountName: Text(
-                "和里 夏太",
-                style: TextStyle(fontSize: 20),
+              accountName: FutureBuilder<String>(
+                future: dbConnector.getNicknameByMail(usermail),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  // 请求已结束
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      // 请求失败，显示错误
+                      return Text("Error: ${snapshot.error}");
+                    } else {
+                      // 请求成功，显示数据
+                      return Text("${snapshot.data}");
+                    }
+                  } else {
+                    // 请求未结束，显示loading
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
-              accountEmail: Text("wari.kanta.00h@st.kyoto-u.ac.jp"),
+              accountEmail: Text(usermail),
             ),
           ),
           ListTile(
@@ -142,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 FirebaseAuth.instance.signOut();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                  MaterialPageRoute(builder: (context) => Login()),
                 );
               }),
         ]),
@@ -152,37 +195,52 @@ class _MyHomePageState extends State<MyHomePage> {
       //
       body: Center(
           child: Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: SizedBox(
-          width: double.infinity,
-          child: ListView.separated(
-              itemCount: nameList.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                    color: Colors.black,
-                  ),
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("${nameList[index]}"),
-                        Text(
-                          "${dateList[index]}",
-                          style: TextStyle(color: Colors.black45, fontSize: 16),
-                        )
-                      ]),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TripDetail(
-                              title: nameList[index], date: dateList[index])),
+              padding: EdgeInsets.only(top: 20),
+              child: FutureBuilder<List<List<String>>>(
+                future: dbConnector.getRyokoList(usermail),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: ListView.separated(
+                          itemCount: snapshot.data[0].length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(
+                                color: Colors.black,
+                              ),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: <Widget>[
+                                    Text("${snapshot.data[0][index]}"),
+                                    Text(
+                                      "${snapshot.data[1][index]}",
+                                      style: TextStyle(
+                                          color: Colors.black45, fontSize: 16),
+                                    )
+                                  ]),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          TripDetail(
+                                              title: snapshot.data[0][index],
+                                              date: snapshot.data[1][index])),
+                                );
+                              },
+                            );
+                          }),
                     );
-                  },
-                );
-              }),
-        ),
-      )),
+
+                  }else{
+                  return CircularProgressIndicator();
+                  }
+                },
+              )
+          )),
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 50.0),
         child: FloatingActionButton.extended(
