@@ -25,20 +25,37 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Warikan Photo',
-      theme: ThemeData(
-          primarySwatch: Colors.lightGreen,
-          textTheme: Theme.of(context).textTheme.apply(
-                fontSizeFactor: 1.1,
-                fontSizeDelta: 2.0,
-              )),
-      home: const MyHomePage(),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-    );
+    if (FirebaseAuth.instance.currentUser != null) {
+      return MaterialApp(
+        title: 'Warikan Photo',
+        theme: ThemeData(
+            primarySwatch: Colors.lightGreen,
+            textTheme: Theme.of(context).textTheme.apply(
+                  fontSizeFactor: 1.1,
+                  fontSizeDelta: 2.0,
+                )),
+        home: const MyHomePage(),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+      );
+    }else{
+      return MaterialApp(
+        title: 'Warikan Photo',
+        theme: ThemeData(
+            primarySwatch: Colors.lightGreen,
+            textTheme: Theme.of(context).textTheme.apply(
+              fontSizeFactor: 1.1,
+              fontSizeDelta: 2.0,
+            )),
+        home: const Login(),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+      );
+    }
   }
 }
 
@@ -50,12 +67,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> nameList = [
+  List<String> nameList = [
     "東京",
     "北海道",
     "ハワイ",
   ];
-  final List<String> dateList = [
+  List<String> dateList = [
     "2022/03/30～2022/03/31",
     "2022/09/15～2022/09/20",
     "2023/02/03～2022/02/07",
@@ -63,12 +80,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String username = FirebaseAuth.instance.currentUser != null
-        ? FirebaseAuth.instance.currentUser!.displayName.toString()
-        : "ログイン";
+    final dbConnection = DatabaseAccesscontroller();
     String usermail = FirebaseAuth.instance.currentUser != null
         ? FirebaseAuth.instance.currentUser!.email.toString()
         : "";
+    Future<String> username = dbConnection.GetUserNickname(usermail);
+    if(FirebaseAuth.instance.currentUser != null){
+      dateList = [];
+      nameList = [];
+
+    }else{
+      nameList.add("Test Data");
+      dateList.add("2023/02/03～2022/02/07");
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("旅行一覧"),
@@ -82,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.lightGreen,
               ),
               accountName: Text(
-                username,
+                username.toString(),
                 style: TextStyle(fontSize: 20),
               ),
               accountEmail: Text(usermail),

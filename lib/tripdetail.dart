@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 //余白を簡単に設定できる
@@ -11,6 +12,44 @@ class SpaceBox extends SizedBox {
   const SpaceBox.height([double value = 8]) : super(height: value);
 }
 
+
+class DatabaseAccesscontroller {
+  final dbConnection = FirebaseFirestore.instance;
+
+  get feed => userConnCollection;
+  
+  DatabaseAccesscontroller build(){
+    
+    return this;
+  }
+  Future<String> GetUserNickname(userMailAddr) async {
+    var userConnCollection = dbConnection.collection("user_list");
+    final userDocumentSnapshot = await userConnCollection.where("mail_addr", isEqualTo: userMailAddr).get();
+    StreamBuilder<QuerySnapshot>(
+        stream: feed.where('uid', isEqualTo: 'aaaaaaaaaaaaa').snapshots(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: snapshot.data.docs
+                  .map((e) => itemGrid(
+                e.data()['username'],
+                e.data()['uid'],
+                e.data()['uavatarUrl'],
+                e.data()['imageUrl'],
+                e.data()['desc'],
+              ))
+                  .toList(),
+            );
+          } else {
+            print('null');
+            return Container();
+          }
+        }));
+  }
+
+
+
+}
 
 //行程コンポーネント
 class CompActivity extends StatelessWidget {
