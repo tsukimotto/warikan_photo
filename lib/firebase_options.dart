@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,11 +43,23 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCCX-PEOKyDCiqEmqNs3f-lG_Ua4MxR-rs',
+    appId: '1:449682153173:web:0e799304e67758ec368c5c',
+    messagingSenderId: '449682153173',
+    projectId: 'warikan-photo',
+    authDomain: 'warikan-photo.firebaseapp.com',
+    databaseURL: 'https://warikan-photo-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'warikan-photo.appspot.com',
+    measurementId: 'G-PXFR56YLTT',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBx9uK7koSNV3ZzhXmCA4kY-0byhV8Z9Ig',
     appId: '1:449682153173:android:b1c94ef48e43aa86368c5c',
     messagingSenderId: '449682153173',
     projectId: 'warikan-photo',
+    databaseURL: 'https://warikan-photo-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'warikan-photo.appspot.com',
   );
 
@@ -62,6 +68,18 @@ class DefaultFirebaseOptions {
     appId: '1:449682153173:ios:5900c98fe97915b2368c5c',
     messagingSenderId: '449682153173',
     projectId: 'warikan-photo',
+    databaseURL: 'https://warikan-photo-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'warikan-photo.appspot.com',
+    iosClientId: '449682153173-i2dh5j6m38c7e6bann5bls741nonqna4.apps.googleusercontent.com',
+    iosBundleId: 'com.example.warikanPhoto',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDijrsJqRuBuDRBI10Y5hkRwMb9-Qk5Fh8',
+    appId: '1:449682153173:ios:5900c98fe97915b2368c5c',
+    messagingSenderId: '449682153173',
+    projectId: 'warikan-photo',
+    databaseURL: 'https://warikan-photo-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'warikan-photo.appspot.com',
     iosClientId: '449682153173-i2dh5j6m38c7e6bann5bls741nonqna4.apps.googleusercontent.com',
     iosBundleId: 'com.example.warikanPhoto',

@@ -1,8 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 //余白を簡単に設定できる
 class SpaceBox extends SizedBox {
@@ -10,31 +10,65 @@ class SpaceBox extends SizedBox {
       : super(width: width, height: height);
 
   const SpaceBox.width([double value = 8]) : super(width: value);
+
   const SpaceBox.height([double value = 8]) : super(height: value);
 }
 
-
 class DatabaseAccesscontroller {
   final dbConnection = FirebaseFirestore.instance;
+  String curUserDocId = "";
+  List<String> ryokoIdList = [];
+  List<String> ryokoNameList = [];
+  List<String> ryokoDateList = [];
 
-  DatabaseAccesscontroller build(){
-    
+  DatabaseAccesscontroller build() {
     return this;
   }
 
   Future<String> getNicknameByMail(String mail) async {
-    final usersRef = dbConnection.collection("user_list");
-    final query = usersRef.where("mail_addr", isEqualTo: mail).limit(1);
-    final snapshot = await query.get();
-    return snapshot.toString();
+    final querySnapshot = await dbConnection
+        .collection("user_list")
+        .where("mail_addr", isEqualTo: mail)
+        .get();
+
+    var b = querySnapshot.docs.first.get("user_nickname");
+
+    return b;
   }
 
+  Future<List<List<String>>> getRyokoList(String mail) async {
+    final userQuerySnapshot = await dbConnection
+        .collection("user_list")
+        .where("mail_addr", isEqualTo: mail)
+        .get();
 
+    var userDocId = userQuerySnapshot.docs.first.id;
+    curUserDocId = userDocId;
+    final ryokoListQuerySnapshot =
+        await dbConnection.collection("user_list/$userDocId/ryoko_ids").get();
 
+    for (var element in ryokoListQuerySnapshot.docs) {
+      ryokoIdList.add(element.get("id").toString().substring(11));
+    }
 
+    for (var value in ryokoIdList) {
+      final ryokoQuerysnapshot =
+          await dbConnection.doc("ryoko_list/$value").get();
 
+      ryokoNameList.add(ryokoQuerysnapshot.get("destination").toString());
+      Timestamp ts_a = ryokoQuerysnapshot.get("start_timestamp");
+      Timestamp ts_b = ryokoQuerysnapshot.get("end_timestamp");
 
+      ryokoDateList.add(DateFormat('dd-MMM-yyy').format(ts_a.toDate()) +
+          DateFormat('dd-MMM-yyy').format(ts_b.toDate()));
+    }
 
+    return [ryokoNameList, ryokoDateList];
+  }
+
+  void addNewRyoko(){
+
+  }
 }
 
 //行程コンポーネント
@@ -42,13 +76,13 @@ class CompActivity extends StatelessWidget {
   final String activityName;
   final String warikanText;
   final List<String> image;
+
   const CompActivity(
       {Key? key,
       required this.activityName,
       required this.warikanText,
       required this.image})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {

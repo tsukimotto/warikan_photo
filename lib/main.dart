@@ -30,22 +30,28 @@ class MyApp extends StatelessWidget {
         title: 'Warikan Photo',
         theme: ThemeData(
             primarySwatch: Colors.lightGreen,
-            textTheme: Theme.of(context).textTheme.apply(
-                  fontSizeFactor: 1.1,
-                  fontSizeDelta: 2.0,
-                )),
+            textTheme: Theme
+                .of(context)
+                .textTheme
+                .apply(
+              fontSizeFactor: 1.1,
+              fontSizeDelta: 2.0,
+            )),
         home: const MyHomePage(),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
       );
-    }else{
+    } else {
       return MaterialApp(
         title: 'Warikan Photo',
         theme: ThemeData(
             primarySwatch: Colors.lightGreen,
-            textTheme: Theme.of(context).textTheme.apply(
+            textTheme: Theme
+                .of(context)
+                .textTheme
+                .apply(
               fontSizeFactor: 1.1,
               fontSizeDelta: 2.0,
             )),
@@ -80,18 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final dbConnection = DatabaseAccesscontroller();
+    final dbConnector = DatabaseAccesscontroller();
     String usermail = FirebaseAuth.instance.currentUser != null
         ? FirebaseAuth.instance.currentUser!.email.toString()
         : "";
-    if(FirebaseAuth.instance.currentUser != null){
-      dateList = [];
-      nameList = [];
-
-    }else{
-      nameList.add("Test Data");
-      dateList.add("2023/02/03～2022/02/07");
-    }
 
 
     return Scaffold(
@@ -107,8 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.lightGreen,
               ),
               accountName: FutureBuilder<String>(
-                future:dbConnection.getNicknameByMail(usermail),
-                builder: (BuildContext context, AsyncSnapshot snapshot){
+                future: dbConnector.getNicknameByMail(usermail),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
                   // 请求已结束
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
@@ -187,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 FirebaseAuth.instance.signOut();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                  MaterialPageRoute(builder: (context) => Login()),
                 );
               }),
         ]),
@@ -197,37 +195,52 @@ class _MyHomePageState extends State<MyHomePage> {
       //
       body: Center(
           child: Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: SizedBox(
-          width: double.infinity,
-          child: ListView.separated(
-              itemCount: nameList.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                    color: Colors.black,
-                  ),
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("${nameList[index]}"),
-                        Text(
-                          "${dateList[index]}",
-                          style: TextStyle(color: Colors.black45, fontSize: 16),
-                        )
-                      ]),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TripDetail(
-                              title: nameList[index], date: dateList[index])),
+              padding: EdgeInsets.only(top: 20),
+              child: FutureBuilder<List<List<String>>>(
+                future: dbConnector.getRyokoList(usermail),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: ListView.separated(
+                          itemCount: snapshot.data[0].length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(
+                                color: Colors.black,
+                              ),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: <Widget>[
+                                    Text("${snapshot.data[0][index]}"),
+                                    Text(
+                                      "${snapshot.data[1][index]}",
+                                      style: TextStyle(
+                                          color: Colors.black45, fontSize: 16),
+                                    )
+                                  ]),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          TripDetail(
+                                              title: snapshot.data[0][index],
+                                              date: snapshot.data[1][index])),
+                                );
+                              },
+                            );
+                          }),
                     );
-                  },
-                );
-              }),
-        ),
-      )),
+
+                  }else{
+                  return CircularProgressIndicator();
+                  }
+                },
+              )
+          )),
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 50.0),
         child: FloatingActionButton.extended(
